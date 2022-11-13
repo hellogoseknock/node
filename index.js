@@ -26,7 +26,8 @@ MongoClient.connect(dbURI, (err, client) => {
 
 
 app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/index.html')
+    // res.sendFile(__dirname + '/index.html')
+    res.render('index.ejs')
 });
 
 app.get('/write', function (req, res) {
