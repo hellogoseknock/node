@@ -43,7 +43,7 @@ app.post('/add', function (req, res) {
         if (err) return console.log(err)
         console.log('저장완료');
     });
-
+    
     return res.redirect('/list');
 });
 
