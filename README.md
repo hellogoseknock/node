@@ -4,7 +4,7 @@
 1. 어떤 경로에서도 git 명령어가 인식되어야함 ( https://youtu.be/ILMQLrJfNCE 참고 ) 
     -  안된다면 환경변수 확인및 수동 등록 필요
 2. 미리 node.js 가 설치 되어 있어야 함 https://nodejs.org/en/
-4. 적당한 작업 폴더로 이동후 탐색기 주소창 아이콘 클릭하고 cmd 입력
+4. 적당한 작업 폴더로 이동후 탐색기 주소창 폴더 아이콘 클릭하고 cmd 입력
 ![Cap 2022-11-14 10-36-18-922](https://user-images.githubusercontent.com/61546237/201557835-ecf2a31e-fb7b-449d-a4b2-0e662d89663f.png)
 ![Cap 2022-11-14 10-36-28-587](https://user-images.githubusercontent.com/61546237/201557878-c597e147-4923-49fe-bad2-11b4439bf5ca.png)
 ![Cap 2022-11-14 10-36-35-702](https://user-images.githubusercontent.com/61546237/201557882-a0cd73e6-891c-4cc8-afa0-c9f08ea469fe.png)
