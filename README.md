@@ -1,4 +1,5 @@
 # node
+![soap](https://user-images.githubusercontent.com/61546237/201559095-38554040-2677-4218-b052-d69dd90efb16.jpg)
 
 0. 미리 git이 설치 되어 있어야 함 https://git-scm.com/download/win
 1. 어떤 경로에서도 git 명령어가 인식되어야함 ( https://youtu.be/ILMQLrJfNCE 참고 ) 
