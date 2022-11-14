@@ -53,5 +53,4 @@ app.get('/list', (req, res) => {
         res.render('list.ejs', { posts: result });
     })
     // res.sendFile(__dirname + '/list.ejs') ejs는 이렇게 안쓴다;
-
 });
