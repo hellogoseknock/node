@@ -14,7 +14,7 @@
 ![Cap 2022-11-14 10-36-57-641](https://user-images.githubusercontent.com/61546237/201557909-c37fe7b2-ef66-48ac-ab91-147bc14a5014.png)
 
 6. cd node 로 새로 생성된 폴더로 들어간 후
-7. cmd 창에서 "npm install --save-dev" (해당 폴더에 존재하는 package.json 을 참고해서 필요한 모듈 자동 설치)
+7. cmd 창에서 "npm install" (해당 폴더에 존재하는 package.json 을 참고해서 필요한 모듈 자동 설치)
 ![Cap 2022-11-14 10-37-55-586](https://user-images.githubusercontent.com/61546237/201557932-1774abcc-9877-4ec3-878e-34016cc473c5.png)
 
 8. nodemon index.js 실행 (vsc 터미널에서 작업시 프로젝트 경로 확인)
