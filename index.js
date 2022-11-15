@@ -74,8 +74,11 @@ app.delete('/delete', (req, res) => {
     console.log(req.body);
     // _id : 1 이 int타입이 아닌 string type으로 전송됨을 해결
     req.body._id = parseInt(req.body._id);
-    db.collection('post').deleteOne(req.body, function(err, res){
-        console.log(err);
+    db.collection('post').deleteOne(req.body, function(err, result){
+        //vsc ternimal output
+        console.log('delete compleated');
+        // success 200, fail 400
+        res.status(200).send({message : 'success'});
     })
 });
 
