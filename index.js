@@ -68,3 +68,14 @@ app.get('/list', (req, res) => {
     })
     // res.sendFile(__dirname + '/list.ejs') ejs는 이렇게 안쓴다;
 });
+
+//게시물 삭제 기능  
+app.delete('/delete', (req, res) => {
+    console.log(req.body);
+    // _id : 1 이 int타입이 아닌 string type으로 전송됨을 해결
+    req.body._id = parseInt(req.body._id);
+    db.collection('post').deleteOne(req.body, function(err, res){
+        console.log(err);
+    })
+});
+
