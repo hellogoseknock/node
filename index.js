@@ -36,14 +36,28 @@ app.get('/write', function (req, res) {
 
 app.post('/add', function (req, res) {
     // res.send('complete')
-    console.log(req.body.aa);
-    console.log(req.body.bb);
+    // console.log(req.body.aa);
+    // console.log(req.body.bb);
 
-    db.collection('post').insertOne({ 제목: req.body.aa, 날짜: req.body.bb }, (err, result) => {
-        if (err) return console.log(err)
-        console.log('저장완료');
+    // db.collection('post').insertOne({ 제목: req.body.aa, 날짜: req.body.bb }, (err, result) => {
+    //     if (err) return console.log(err)
+    //     console.log('저장완료');
+    // });
+    db.collection('counter').findOne({name : '게시물갯수'}, (err,res)=>{
+        console.log(res.totalPost);
+        let totalNumberofpost = res.totalPost;
+
+        //게시물에 유니크한 아이디를 부여해서 추가,삭제등의 변경이 일어나도 대응가능
+        db.collection('post').insertOne({ _id : totalNumberofpost+1, 제목: req.body.aa, 날짜: req.body.bb }, (err, result) => {
+            if (err) return console.log(err)
+            console.log('저장완료');
+            //mongodb operater = $set, $inc, $min, $rename
+            db.collection('counter').updateOne({name:'게시물갯수'},{ $inc : {totalPost:1} },(err, res)=>{
+                if(err){return console.log(err)}
+            });
+        });
     });
-    
+
     return res.redirect('/list');
 });
 
