@@ -78,7 +78,7 @@ app.delete('/delete', (req, res) => {
         //vsc ternimal output
         console.log('delete compleated');
         // success 200, fail 400, message from server
-        res.status(200).send({message : 'success'});
+        res.status(400).send({message : 'success'});
     })
 });
 

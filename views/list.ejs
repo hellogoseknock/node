@@ -66,7 +66,8 @@
       
       var atThisMomentClick = $(this);
 
-      //에이잭스 :  HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
+      //에이잭스 :  HTTP 요청이 성공하면 res.status(200) 이라면 
+      //요청한 데이터가 done() 메소드로 전달됨.
       $.ajax({
         method: 'DELETE',
         url: '/delete',
