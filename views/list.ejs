@@ -5,9 +5,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Bootstrap demo</title>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-</head>
+    </head>
 
 <body>
   <nav class="navbar navbar-expand-lg bg-light">
@@ -41,43 +42,47 @@
   <button>삭제</button>
   <% } %> -->
 
+  <!-- 가끔씩 추가 입력후 신규 항목이 ajax 추가로 안나타남. 이유는 모름-->
   <ul class="list-group list-group-flush">
     <% for (var i=0; i < posts.length ; i++){ %>
       <li class="list-group-item">
         <!-- <p>글번호 : <%= posts[i]._id %></p> -->
         <h4>할일 제목 : <%= posts[i].제목 %></h4>
         <p>마감날짜 : <%= posts[i].날짜 %><p>
-        <button class="btn btn-outline-warning delete" data-id="<%= posts[i]._id %>" >삭제</button>
+        <button data-id="<%= posts[i]._id %>" class="btn btn-outline-warning delete">삭제</button>        </div>
       </li>
-      <% } %>
+    <% } %>
   </ul>
 
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+  <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script>
-
-    $('.delete').click(function(e) {
-      //event.target의 숨겨진 요소 data-id를 가져오라는 뜻 
-      var postNo = e.target.dataset.id;
-      var atThisMomentClick = $(this);
+    //제이쿼리 : event.target의 숨겨진 요소 data-id를 가져오라는 뜻 
+    $('.delete').click( function() {
+      var postNo = event.target.dataset.id;
       
+      //잘됨
+      // $(this).closest('li').fadeOut();
+      
+      var atThisMomentClick = $(this);
+
+      //에이잭스 :  HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
       $.ajax({
         method: 'DELETE',
         url: '/delete',
         data: { _id : postNo }
-      }).done(()=> {
-        // 페이지를 강제로 새로고침 필요
-        //web brawser F12 console window
-        console.log('성공');
+      }).done(function() {
+        console.log('Ok');
+
         //parent없이 그냥 버튼을 fadeOut() 시키는 잘 되는데 li 태그를 못 찾넹...
-        atThisMomentClick.parent('li').fadeOut();
+        //해결 ! (parent()가 아닌 closest()로 바꾸니까 잘되넹...ㅋ
+        atThisMomentClick.closest('li').fadeOut();
 
       }).fail(function(){
         // console.log(err);
         console.log('failed');
       });
     })
-
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
