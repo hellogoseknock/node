@@ -78,7 +78,19 @@ app.delete('/delete', (req, res) => {
         //vsc ternimal output
         console.log('delete compleated');
         // success 200, fail 400, message from server
-        res.status(400).send({message : 'success'});
+        res.status(200).send({message : 'success'});
     })
 });
 
+//디테일뷰 /detail/게시물번호 형태로
+//:의 의미는 /detail/밑에 아무 문자열이나 오면 res.render() 작동 되게함 == URL parameter
+app.get('/detail/:id', (req, res) => {
+    db.collection('post').findOne({_id : parseInt(req.params.id)}, function(err, result) {
+        console.log(result);
+        res.render('detailPage.ejs', { data : result } )
+        // 없는 아이디를 파라미터로 쓴경우 error 처리 필요함
+    })
+    
+});
+
+ 
