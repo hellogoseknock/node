@@ -14,15 +14,19 @@
     <%- include('nav.html') %>
         <div class="container mt-4">
             <!-- form 전송은 (get.post,delete,put)중 get과 post만 가능하기에 delete처럼 별도 처리 필요 -->
-            <!-- 특별한 라이브러리 설치가 필요하다 -->
-            <form action="/add" method="PUT">
+            <!-- 특별한 라이브러리 설치가 필요하다 npm install method-override-->
+            <!-- <form action="/add" method="POST"> -->
+            <!-- _id 추가 전송 필요 -->
+            <form action="/edit?_method=PUT" method="POST">
                 <div class="form-group mt-4">
                     <label>할일</label>
-                    <input value="<%= post.제목 %>" class="form-control" type="text" name="aa">
+                    <!-- id는 히든속성 -->
+                    <input type="text" value="<%= post._id %> name="id" style="display: none;">
+                    <input value="<%= post.제목 %>" class="form-control" type="text" name="title">
                 </div>
                 <div class="form-group mt-4">
                     <label>마감시한</label>
-                    <input value="<%= post.날짜 %>" class="form-control" type="text" name="bb">
+                    <input value="<%= post.날짜 %>" class="form-control" type="text" name="date">
                 </div>
                 <div class="form-group mt-4">
                     <button type="submit" class="btn btn-outline-secondary">등록</button>

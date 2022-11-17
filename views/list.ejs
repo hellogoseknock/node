@@ -8,70 +8,85 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-  <link rel="stylesheet" href="/public/main.css">
+  <!-- <link rel="stylesheet" href="/public/main.css"> -->
 </head>
 
 <body>
-<!-- html 모듈 블러오기 .ejs 포맷 파일에서만 가능한 방법 -->
-<%- include('nav.html') %>
+  <!-- html 모듈 블러오기 .ejs 포맷 파일에서만 가능한 방법 -->
+  <%- include('nav.html') %>
 
-  <h4 class="ml-2 my-3 text-center">서버에서 가져온 할일 리스트</h4>
-  <!-- <% for (var i=0; i < posts.length ; i++){ %> 
+    <h4 class="ml-2 my-3 text-center">서버에서 가져온 할일 리스트</h4>
+    <!-- <% for (var i=0; i < posts.length ; i++){ %> 
   <h4>할일 목록 : <%= posts[i].제목 %></h4>
   <h4>마감날짜 : <%= posts[i].날짜 %></h4>
   <button>삭제</button>
   <% } %> -->
 
-  <!-- 가끔씩 추가 입력후 신규 항목이 ajax 추가로 안나타남. 이유는 모름-->
-  <!-- <div class="container"></div> 로 묶어주었을때 정렬 이상현상 나타남 -->
+    <!-- 가끔씩 추가 입력후 신규 항목이 ajax 추가로 안나타남. 이유는 모름-->
+    <!-- <div class="container"></div> 로 묶어주었을때 정렬 이상현상 나타남 -->
     <ul class="list-group container">
       <% for (var i=0; i < posts.length ; i++){ %>
         <li class="list-group-item">
-          <p>No.<%= posts[i]._id %></p>
-          <h4>할일 제목 : <%= posts[i].제목 %></h4>
-          <p>마감날짜 : <%= posts[i].날짜 %><p>
-          <button  class="btn btn-outline-warning delete" data-id="<%= posts[i]._id %>">삭제</button>
-          <button  class="btn btn-outline-primary delete" data-id="<%= posts[i]._id %>">수정</button> 
+          <p>No.<%= posts[i]._id %>
+          </p>
+          <h4>할일 제목 : <%= posts[i].제목 %>
+          </h4>
+          <p>마감날짜 : <%= posts[i].날짜 %>
+              <p>
+                <button class="btn btn-outline-warning delete" data-id="<%= posts[i]._id %>">삭제</button>
+                <button class="btn btn-outline-warning edit" data-id="<%= posts[i]._id %>">수정</button>
+
         </li>
         <% } %>
     </ul>
 
 
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
-  <script>
-    //제이쿼리 : event.target의 숨겨진 요소 data-id를 가져오라는 뜻 
-    $('.delete').click(function () {
-      var postNo = event.target.dataset.id;
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+    <script>
+      $('edit').click(function () {
+        var postNo = event.target.dataset.id;
+        $.ajax({
+          method: 'PUT',
+          url: '/edit',
+          data: { _id: postNo }
+        }).done(function () {
+          console.log('edit window open ok');
+        }).fail(function () {
+          // console.log(err);
+          console.log('failed');
+        });
+      })
+    </script>
 
-      //잘됨
-      // $(this).closest('li').fadeOut();
+    <script>
+      //제이쿼리 : event.target의 숨겨진 요소 data-id를 가져오라는 뜻 
+      $('.delete').click(function () {
+        var postNo = event.target.dataset.id;
+        //잘됨
+        // $(this).closest('li').fadeOut();
+        var atThisMomentClick = $(this);
+        //에이잭스 :  HTTP 요청이 성공하면 res.status(200) 이라면 
+        //요청한 데이터가 done() 메소드로 전달됨.
+        $.ajax({
+          method: 'DELETE',
+          url: '/delete',
+          data: { _id: postNo }
+        }).done(function () {
+          console.log('Ok');
+          //parent없이 그냥 버튼을 fadeOut() 시키는 잘 되는데 li 태그를 못 찾넹...
+          //해결 ! (parent()가 아닌 closest()로 바꾸니까 잘되넹...ㅋ
+          atThisMomentClick.closest('li').fadeOut();
+        }).fail(function () {
+          // console.log(err);
+          console.log('failed');
+        });
+      })
+    </script>
 
-      var atThisMomentClick = $(this);
-
-      //에이잭스 :  HTTP 요청이 성공하면 res.status(200) 이라면 
-      //요청한 데이터가 done() 메소드로 전달됨.
-      $.ajax({
-        method: 'DELETE',
-        url: '/delete',
-        data: { _id: postNo }
-      }).done(function () {
-        console.log('Ok');
-
-        //parent없이 그냥 버튼을 fadeOut() 시키는 잘 되는데 li 태그를 못 찾넹...
-        //해결 ! (parent()가 아닌 closest()로 바꾸니까 잘되넹...ㅋ
-        atThisMomentClick.closest('li').fadeOut();
-
-      }).fail(function () {
-        // console.log(err);
-        console.log('failed');
-      });
-    })
-  </script>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-    crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+      crossorigin="anonymous"></script>
 </body>
 
 </html>

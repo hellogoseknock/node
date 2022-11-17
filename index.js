@@ -1,9 +1,15 @@
 const express = require('express');
 const app = express();
+
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded());
+
 const MongoClient = require('mongodb-legacy').MongoClient;
 app.set('view engine', 'ejs');
+
+//form에서 delete 및 put 가능..여기선 put 활용 
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
 
 //style sheet 파일 등의 static은 /public 밑에 배치
 app.use('/pulbic', express.static('public'));
@@ -100,7 +106,16 @@ app.get('/detail/:id', (req, res) => {
 app.get('/edit/:id', (req, res) => {
     db.collection('post').findOne({_id : parseInt(req.params.id)}, function(err, result) {
         res.render('edit.ejs', { post : result } )
-            
+
     })
 });
- 
+
+//form을 통한 put 처리
+//updateOne 처리가 안되넹...
+app.put('/edit', (req, res)=> {
+    db.collection('post').updateOne({_id : parseInt(req.body.id)}, { $set : { 제목 : req.body.title, 날짜 : req.body.date }}, function(err, result) {
+        console.log('수정완료')
+        res.redirect('/list')
+    })
+
+});
