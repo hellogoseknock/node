@@ -23,9 +23,7 @@ MongoClient.connect(dbURI, (err, client) => {
     app.listen(7070, function (req, res) {
         console.log('server 7070 port listening...');
     });
-
 });
-
 
 app.get('/', function (req, res) {
     // res.sendFile(__dirname + '/index.html')
@@ -96,7 +94,13 @@ app.get('/detail/:id', (req, res) => {
         res.render('detailPage.ejs', { data : result } )
         // 없는 아이디를 파라미터로 쓴경우 error 처리 필요함
     })
-    
 });
 
+//edit
+app.get('/edit/:id', (req, res) => {
+    db.collection('post').findOne({_id : parseInt(req.params.id)}, function(err, result) {
+        res.render('edit.ejs', { post : result } )
+            
+    })
+});
  

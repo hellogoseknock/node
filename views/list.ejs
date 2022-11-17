@@ -30,7 +30,8 @@
           <p>No.<%= posts[i]._id %></p>
           <h4>할일 제목 : <%= posts[i].제목 %></h4>
           <p>마감날짜 : <%= posts[i].날짜 %><p>
-          <button  class="btn btn-outline-warning delete" data-id="<%= posts[i]._id %>">삭제</button> </div>
+          <button  class="btn btn-outline-warning delete" data-id="<%= posts[i]._id %>">삭제</button>
+          <button  class="btn btn-outline-primary delete" data-id="<%= posts[i]._id %>">수정</button> 
         </li>
         <% } %>
     </ul>
