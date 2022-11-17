@@ -8,34 +8,14 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    </head>
+  <link rel="stylesheet" href="/public/main.css">
+</head>
 
 <body>
-  <nav class="navbar navbar-expand-lg bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Stable Diffusion</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">홈</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="http://localhost:7070/list">할일 목록</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="http://localhost:7070/write">추가</a>`
-          </li>
+<!-- html 모듈 블러오기 .ejs 포맷 파일에서만 가능한 방법 -->
+<%- include('nav.html') %>
 
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <h4 class="ml-2 my-3">서버에서 가져온 할일 리스트</h4>
+  <h4 class="ml-2 my-3 text-center">서버에서 가져온 할일 리스트</h4>
   <!-- <% for (var i=0; i < posts.length ; i++){ %> 
   <h4>할일 목록 : <%= posts[i].제목 %></h4>
   <h4>마감날짜 : <%= posts[i].날짜 %></h4>
@@ -43,27 +23,29 @@
   <% } %> -->
 
   <!-- 가끔씩 추가 입력후 신규 항목이 ajax 추가로 안나타남. 이유는 모름-->
-  <ul class="list-group list-group-flush">
-    <% for (var i=0; i < posts.length ; i++){ %>
-      <li class="list-group-item">
-        <!-- <p>글번호 : <%= posts[i]._id %></p> -->
-        <h4>할일 제목 : <%= posts[i].제목 %></h4>
-        <p>마감날짜 : <%= posts[i].날짜 %><p>
-        <button data-id="<%= posts[i]._id %>" class="btn btn-outline-warning delete">삭제</button>        </div>
-      </li>
-    <% } %>
-  </ul>
+  <!-- <div class="container"></div> 로 묶어주었을때 정렬 이상현상 나타남 -->
+    <ul class="list-group container">
+      <% for (var i=0; i < posts.length ; i++){ %>
+        <li class="list-group-item">
+          <p>No.<%= posts[i]._id %></p>
+          <h4>할일 제목 : <%= posts[i].제목 %></h4>
+          <p>마감날짜 : <%= posts[i].날짜 %><p>
+          <button  class="btn btn-outline-warning delete" data-id="<%= posts[i]._id %>">삭제</button> </div>
+        </li>
+        <% } %>
+    </ul>
 
-  <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
   <script>
     //제이쿼리 : event.target의 숨겨진 요소 data-id를 가져오라는 뜻 
-    $('.delete').click( function() {
+    $('.delete').click(function () {
       var postNo = event.target.dataset.id;
-      
+
       //잘됨
       // $(this).closest('li').fadeOut();
-      
+
       var atThisMomentClick = $(this);
 
       //에이잭스 :  HTTP 요청이 성공하면 res.status(200) 이라면 
@@ -71,15 +53,15 @@
       $.ajax({
         method: 'DELETE',
         url: '/delete',
-        data: { _id : postNo }
-      }).done(function() {
+        data: { _id: postNo }
+      }).done(function () {
         console.log('Ok');
 
         //parent없이 그냥 버튼을 fadeOut() 시키는 잘 되는데 li 태그를 못 찾넹...
         //해결 ! (parent()가 아닌 closest()로 바꾸니까 잘되넹...ㅋ
         atThisMomentClick.closest('li').fadeOut();
 
-      }).fail(function(){
+      }).fail(function () {
         // console.log(err);
         console.log('failed');
       });
