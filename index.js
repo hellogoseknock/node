@@ -5,8 +5,10 @@ app.use(bodyParser.urlencoded());
 const MongoClient = require('mongodb-legacy').MongoClient;
 app.set('view engine', 'ejs');
 
-const dbURI = 'mongodb+srv://test:FBYxHuq0rCjaUAat@cluster0.nmfbmkk.mongodb.net/?retryWrites=true&w=majority&authSource=admin';
+//style sheet 파일 등의 static은 /public 밑에 배치
+app.use('/pulbic', express.static('public'));
 
+const dbURI = 'mongodb+srv://test:FBYxHuq0rCjaUAat@cluster0.nmfbmkk.mongodb.net/?retryWrites=true&w=majority&authSource=admin';
 var db
 MongoClient.connect(dbURI, (err, client) => {
     if (err) return console.log(err)
@@ -30,8 +32,12 @@ app.get('/', function (req, res) {
     res.render('index.ejs')
 });
 
+// app.get('/write', function (req, res) {
+//     res.sendFile(__dirname + '/write.html')
+// });
+
 app.get('/write', function (req, res) {
-    res.sendFile(__dirname + '/write.html')
+    res.render('write.ejs')
 });
 
 app.post('/add', function (req, res) {
