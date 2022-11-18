@@ -178,8 +178,12 @@ passport.serializeUser( (user, done)=>{
 });
 
 // 세션이 있어야 마이페이지에 방문했을때 확인(세션검사)후 페이지 전송키켜 주려면
+// 로그인한 유저의 정보들을 DB에서 찾는 역활 
 passport.deserializeUser( (id, done)=>{
-    done(null, {})
+    //db에서 user.id로 유저를 찾은 뒤에 유저정보를 { }에 넣음
+    db.collection('login').findOne({id : 아이디}, (err, result)=>{
+        done(null, result)
+    })
 });
 
 // mypages 접근 및  커스텀 미들웨어 쓰는법
