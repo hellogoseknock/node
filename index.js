@@ -182,5 +182,16 @@ passport.deserializeUser( (id, done)=>{
     done(null, {})
 });
 
+// mypages 접근 및  커스텀 미들웨어 쓰는법
+app.get('/mypage', areYouLogedIn, (req, res) =>{
+    res.render('mypages.ejs')
+});
 
- 
+//mypage 접근전 로그인검사 middleware
+function  areYouLogedIn( req, res, next){
+    if(req.user){
+        next()
+    } else {
+        res.send('Access Denied')
+    }
+};
